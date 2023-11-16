@@ -6,7 +6,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import { Button } from '../components/Button';
 import { Info } from '../components/Info';
 import { selectDetails } from '../store/details/details-selectors';
-import { loadCountryByName } from '../store/details/details-actions';
+import { clearDetails, loadCountryByName } from '../store/details/details-actions';
 
 
 export const Details = () => {
@@ -14,10 +14,13 @@ export const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentCountry, error, status } = useSelector(selectDetails);
-  console.log(currentCountry)
   
   useEffect(() => {
     dispatch(loadCountryByName(name))
+
+    return () => {
+      dispatch(clearDetails)
+    }
   }, [name, dispatch]);
 
   return (
